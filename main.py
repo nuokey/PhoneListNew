@@ -3,19 +3,23 @@ from tkinter import *
 
 def contacts():
 	global last_i, name, number, delete_contact, contact_was, label_list
-    db = sqlite3.connect('data.db')
-    cursor = db.cursor()
-    number_list = []
-    name_list = []
-    tele_list = []
+	db = sqlite3.connect('data.db')
+	cursor = db.cursor()
+	number_list = []
+	name_list = []
+	notes_list = []
+	tele_list = []
 	for i in cursor.execute("SELECT number FROM phonelist"):
-        number_list.append(i[0])
+		number_list.append(i[0])
 
-    for q in cursor.execute("SELECT name FROM phonelist"):
-        name_list.append(q[0])
+	for q in cursor.execute("SELECT name FROM phonelist"):
+		name_list.append(q[0])
 
-    for z in number_list:
-        tele_list.append()
+	for s in cursor.execute("SELECT notes FROM phonelist"):
+		notes_list.append(s[0])
+
+	for z in number_list:
+		tele_list.append()
 
 	if contact_was:
 		for q in range(len(label_list)):
@@ -30,11 +34,13 @@ def contacts():
 	for i in range(len(tele_list)):
 		name = Label(text = tele_list[i][0], bg = 'black', fg = 'white')
 		number = Label(text = tele_list[i][1], bg = 'black', fg = 'white')
+		notes = Label(text = tele_list[i][2], bg = 'black', fg = 'white')
 		delete_contact = Button(text = 'x', command = lambda: contact_delete(name))
 
-		name.place(x = 10, y = 30 + i * 30, width = 100 ,height = 20)
+		name.place(x = 10, y = 30 + i * 30, width = 100, height = 20)
 		number.place(x = 120, y = 30 + i * 30, width = 100, height = 20)
-		delete_contact.place(x = 225, y = 30 + i * 30, width = 20, height = 20)
+		notes.place(x = 230, y = 30 + i * 30, width = 100, height = 20)
+		delete_contact.place(x = 335, y = 30 + i * 30, width = 20, height = 20)
 
 		label_list.append((name, number, delete_contact))
 
