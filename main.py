@@ -29,7 +29,6 @@ def contacts():
 			label_list[q][0].destroy()
 			label_list[q][1].destroy()
 			label_list[q][2].destroy()
-			label_list[q][3].destroy()
 
 	label_list = []
 
@@ -37,15 +36,12 @@ def contacts():
 		name = Label(text = tele_list[i][0], bg = 'black', fg = 'white')
 		number = Label(text = tele_list[i][1], bg = 'black', fg = 'white')
 		notes = Label(text = tele_list[i][2], bg = 'black', fg = 'white')
-		delete_contact = Button(text = 'x', command = lambda: contact_delete(name))
-		print(name['text'])
 
 		name.place(x = 10, y = 30 + i * 30, width = 100, height = 20)
 		number.place(x = 120, y = 30 + i * 30, width = 100, height = 20)
 		notes.place(x = 230, y = 30 + i * 30, width = 100, height = 20)
-		delete_contact.place(x = 335, y = 30 + i * 30, width = 20, height = 20)
 
-		label_list.append((name, number, notes, delete_contact))
+		label_list.append((name, number, notes))
 
 		last_i = i
 	
@@ -64,13 +60,10 @@ def contact_add():
 	plus_contact['text'] = 'S'
 	plus_contact['command'] = contact_safe
 
-def contact_delete(name):
+def contacts_delete():
 	db = sqlite3.connect('data.db')
 	cursor = db.cursor()
-	a = name['text']
-	text = f'DELETE FROM phonelist WHERE name = "{a}"'
-	cursor.execute(text)
-	print(text)
+	cursor.execute(f'DELETE FROM phonelist')
 	db.commit()
 
 	contacts()
@@ -104,7 +97,6 @@ def search():
 			label_list[q][0].destroy()
 			label_list[q][1].destroy()
 			label_list[q][2].destroy()
-			label_list[q][3].destroy()
 
 	label_list = []
 
@@ -114,14 +106,12 @@ def search():
 			name = Label(text = tele_list[i][0], bg = 'black', fg = 'white')
 			number = Label(text = tele_list[i][1], bg = 'black', fg = 'white')
 			notes = Label(text = tele_list[i][2], bg = 'black', fg = 'white')
-			delete_contact = Button(text = 'x', command = lambda: contact_delete(name))
 
 			name.place(x = 10, y = 30 + i * 30, width = 100 ,height = 20)
 			number.place(x = 120, y = 30 + i * 30, width = 100, height = 20)
 			notes.place(x = 230, y = 30 + i * 30, width = 100, height = 20)
-			delete_contact.place(x = 335, y = 30 + i * 30, width = 20, height = 20)
 
-			label_list.append((name, number, notes, delete_contact))
+			label_list.append((name, number, notes))
 
 
 root = Tk()
@@ -139,6 +129,9 @@ root_name.place(x = 0, y = 0, width = 360, height = 30)
 
 plus_contact = Button(text='+', command = contact_add)
 plus_contact.place(x = 335, y = 5, width = 20, height = 20)
+
+delete_contact = Button(text='x', command = contacts_delete)
+delete_contact.place(x = 5, y = 5, width = 20, height = 20)
 
 search_button = Button(text = 'Search', command = search)
 search_button.place(x = 10, y = 440, width = 340, height = 20)
